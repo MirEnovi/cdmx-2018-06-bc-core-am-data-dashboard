@@ -233,8 +233,8 @@ Guía de instalación:
 
 - Clonar este repositorio.
 - Abrir la carpeta de trabajo en tu terminal y escribir lo siguiente.
-    - git clone https://github.com/MirEnovi/ocho_reinas.git .
-    - en terminal escribir npm install para isntalar dependencias.
+    - git clone https://github.com/MirEnovi/cdmx-2018-06-bc-core-am-data-dashboard.git .
+    - en terminal escribir npm install para instalar dependencias.
     - abrir el index.html que esta dentro de la carpeta "src", en tu navegador.
 
 Y listo.
