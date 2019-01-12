@@ -102,5 +102,5 @@ p {  /*esta parrafo proviene de el archivo main.js especificamente de la tabla i
 }
 
 .header {
-    /* margin-top: -50px; */
+  margin: 0 auto; 
 }
