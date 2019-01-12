@@ -88,14 +88,11 @@
                   placeholder="nombre del alumno"
                   aria-label="nombre del alumno"
                   aria-describedby="button-addon2"
+                  id="search-label"
                 />
                 <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    id="button-addon2"
-                  >
-                    Buscar
+                  <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal" id="clickbtn-search" >
+                      Buscar
                   </button>
                 </div>
               </div>
@@ -107,7 +104,10 @@
 
       <section>
         <!-- DIV DE BIENVENIDA -->
-        <div class="bienvenido">B I E N V E N I D @</div>
+        <div class="bienvenido">B I E N V E N I D @</div>        
+        <!-- Modal -->
+        <div id="modal-search">
+        </div>
 
         <!--SOCIAL BAR-->
         <!-- <div class="social-bar">

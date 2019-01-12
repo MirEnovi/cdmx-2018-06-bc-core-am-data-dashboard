@@ -182,5 +182,6 @@ window.filterStudents = (students, search) => {
   let newStudents = students.filter((i) => {
     return i.name == search;
   })
+  console.log(newStudents);
   return newStudents;
 }
