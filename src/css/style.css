@@ -40,7 +40,7 @@
 p {  /*esta parrafo proviene de el archivo main.js especificamente de la tabla inscrustada*/
   display: block;
   margin:inherit;
-  text-align: center;
+  text-align: left;
   color: #212F3D;
 }
 

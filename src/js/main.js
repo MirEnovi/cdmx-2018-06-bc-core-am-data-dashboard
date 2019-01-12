@@ -17,9 +17,8 @@ window.realoadJSON = () => {
     })
     .then((infoS) => {
       // console.log(infoS);
-      const resultSearch = filterStudents(infoS, 'Sherrie Jeana');
       const resultOrder = sortStudents(infoS, 'name', 'ASC');
-      console.log(resultSearch, resultOrder);
+      filterDraw(infoS);
     })
     .catch(error => {
       console.log(error)
@@ -33,15 +32,16 @@ let listaEstudiantes = document.getElementById('tablaEstudiantes');
 let listaResult = document.getElementById('lista_estudiantes');
 let containerG = document.getElementById('contenido_general');
 let carrusel = document.getElementById('carrusel');
-let search = document.getElementById('search');
+let searchLabel = document.getElementById('search-label');
 
 
 // llamados id de links
 let clickEstudiantesTodos = document.getElementById('estudiantes');
-
 let clickSedes = document.getElementById('sedes');
+let modalSerchResult = document.getElementById('modal-search');
+let clickbtnSearch = document.getElementById('clickbtn-search')
 
-let clickbtnSearch = document.getElementById('btnSearch');
+
 
 window.studentDraw = (infoStudent) => {
   let number = 1;
@@ -56,6 +56,38 @@ window.studentDraw = (infoStudent) => {
                 <th scope="col"> ${infoStudent[i].stats.status}</th>
             </tr>
             `;
+  }
+};
+
+window.filterDraw = (infoS) => {
+  const resultSearch = filterStudents(infoS, 'Sherrie Jeana');
+  // console.log(resultSearch);
+  if (resultSearch) {
+    modalSerchResult.innerHTML =
+    `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">${resultSearch[0].name}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Sede: ${resultSearch[0].campus}</p>
+            <p>Generación: ${resultSearch[0].generation}</p>
+            <p>E-mail: ${resultSearch[0].mail}</p>
+            <p>% de Completitud: ${resultSearch[0].stats.completedPercentage}</p>
+            <p>La estudiante: ${resultSearch[0].stats.status}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    alert('No existe registro');
   }
 };
 
@@ -75,14 +107,19 @@ window.generationDraw = (infoGeneration) => {
 
 
 // evento para jalar lista de estudiantes
-clickEstudiantesTodos.addEventListener('click', (event) => {
+clickEstudiantesTodos.addEventListener('click', (e) => {
   carrusel.style.display = 'none';
   containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
 });
 
-clickSedes.addEventListener('click', (event) => {
+clickSedes.addEventListener('click', (e) => {
   carrusel.style.display = 'none';
   listaEstudiantes.style.display = 'none';
   containerG.style.display = 'block';
 });
+
+clickbtnSearch.addEventListener('click', (e) => {
+  // console.log(searchLabel.value);
+  console.log('seguimos trabajando');
+})
