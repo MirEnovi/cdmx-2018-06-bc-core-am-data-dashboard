@@ -209,3 +209,41 @@ Pantalla del botón de "listado", donde se muestra toda la data de las estudiant
 
 ![alt text](imagenes/ceel_listado_estudiantes.jpg)
 ****
+
+## Guía de usuario
+
+La aplicación esta deployada [aquí](https://mirenovi.github.io/cdmx-2018-06-bc-core-am-data-dashboard/src/), y también se puede probar de manera local clonando este repositorio.
+
+El usuario y la contraseña son:
+Nombre: admin.
+Contraseña: 123admin.
+
+Puedes folkear este repositorio si quieres colaborar con este proyecto y mandar tus cambios.
+
+
+## Guía de instalación
+
+Para probar de manera local es necesario contar con:
+- El editor de codigo de tu preferencia.
+- Terminal (consola) Bash.
+- Node.js y NPM (para instalar Mocha y Chai para los test).
+
+
+Guía de instalación:
+
+- Clonar este repositorio.
+- Abrir la carpeta de trabajo en tu terminal y escribir lo siguiente.
+    - git clone https://github.com/MirEnovi/ocho_reinas.git .
+    - en terminal escribir npm install para isntalar dependencias.
+    - abrir el index.html que esta dentro de la carpeta "src", en tu navegador.
+
+Y listo.
+
+### Dependencias
+
+Para este proyecto se uso:
+- HTML.
+- Javascript vainilla.
+- CSS.
+- Bootstrap.
+- Mocha Chai.
