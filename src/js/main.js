@@ -1,93 +1,128 @@
 document.addEventListener('DOMContentLoaded', () => { // DOMContentLoaded es un evento
-  realoadJSON();
+  realoadData();
 }, false);
+
 
 const json = 'https://raw.githubusercontent.com/Laboratoria/cdmx-2018-06-bc-core-am-data-dashboard/master/data/laboratoria.json';
 
-window.realoadJSON = () => {
+window.realoadData = () => {
   fetch(json)
     .then(response => response.json())
     .then((res) => {
       const infoStudent = computeStudentsStats(res);
       const infoGeneration = computeGenerationsStats(res);
-      // filterStudents(infoStudent);
-      studentDraw(infoStudent);
-      generationDraw(infoGeneration);
-      return infoStudent;
+      const infoData = {infoStudent, infoGeneration};
+      return infoData;
     })
-    .then((infoS) => {
-      // console.log(infoS);
-      const resultOrder = sortStudents(infoS, 'name', 'ASC');
-      filterDraw(infoS);
+    .then((infoData) => {
+      const dataStorage = localStorage.setItem('data', JSON.stringify(infoData));
+      return dataStorage
     })
     .catch(error => {
       console.log(error)
     });
 };
 
-// pintar tabla de estudiantes
-let listaEstudiantes = document.getElementById('tablaEstudiantes');
+// elementos del DOM
+const campusDom = document.getElementById('campus-dom');
+const mex = document.getElementById('mex');
+const stg = document.getElementById('stg');
+const lim = document.getElementById('lim');
 
-// Variable que pintara la lista de estudiantes.
-let listaResult = document.getElementById('lista_estudiantes');
-let containerG = document.getElementById('contenido_general');
-let carrusel = document.getElementById('carrusel');
-let searchLabel = document.getElementById('search-label');
+const studentsDom = document.getElementById('students-dom');
+const eMex = document.getElementById('e-mex');
+const eStg = document.getElementById('e-stg');
+const eLim = document.getElementById('e-lim');
+
+const searchLabel = document.getElementById('search-label');
+const clickbtnSearch = document.getElementById('clickbtn-search');
+
+const carrusel = document.getElementById('carrusel');
+const listaEstudiantes = document.getElementById('tablaEstudiantes');
+const listaResult = document.getElementById('lista_estudiantes');
+const containerG = document.getElementById('contenido_general');
+
+const modalSerchResult = document.getElementById('modal-search');
 
 
-// llamados id de links
-let clickEstudiantesTodos = document.getElementById('estudiantes');
-let clickSedes = document.getElementById('sedes');
-let modalSerchResult = document.getElementById('modal-search');
-let clickbtnSearch = document.getElementById('clickbtn-search')
-
-
-
-window.studentDraw = (infoStudent) => {
-  let number = 1;
-  for (let i = 0; i < infoStudent.length; i++) {
-    listaResult.innerHTML += `
-            <tr><th scope="col"> ${number + i}</th>
-                <th scope="col"> ${infoStudent[i].name}</th>
-                <th scope="col"> ${infoStudent[i].mail}</th>
-                <th scope="col"> ${infoStudent[i].campus}</th>
-                <th scope="col"> ${infoStudent[i].turnoStudent}</th>
-                <th scope="col"> ${infoStudent[i].stats.completedPercentage}</th>
-                <th scope="col"> ${infoStudent[i].stats.status}</th>
-            </tr>
-            `;
+window.studentfilter = (infoStudent, pais) => {
+  listaResult.innerHTML= '';
+  if (pais !== 'todos') {
+    let infoStudentRes = infoStudent.filter((obj) => {
+      if ('campus' in obj && (obj.campus) === pais) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    console.log(infoStudentRes);
+    let number = 1;
+    for (let i = 0; i < infoStudentRes.length; i++) {
+      // console.log(infoStudentRes[i].campus);
+      listaResult.innerHTML += `
+              <tr><th scope="col"> ${number + i}</th>
+                  <th scope="col"> ${infoStudentRes[i].name}</th>
+                  <th scope="col"> ${infoStudentRes[i].mail}</th>
+                  <th scope="col"> ${infoStudentRes[i].campus}</th>
+                  <th scope="col"> ${infoStudentRes[i].turnoStudent}</th>
+                  <th scope="col"> ${infoStudentRes[i].stats.completedPercentage}</th>
+                  <th scope="col"> ${infoStudentRes[i].stats.status}</th>
+              </tr>
+              `;
+    }
+  } else {
+    let number = 1;
+    for (let i = 0; i < infoStudent.length; i++) {
+      listaResult.innerHTML += `
+                <tr><th scope="col"> ${number + i}</th>
+                    <th scope="col"> <a href="">${infoStudent[i].name}</a></th>
+                    <th scope="col"> ${infoStudent[i].mail}</th>
+                    <th scope="col"> ${infoStudent[i].campus}</th>
+                    <th scope="col"> ${infoStudent[i].turnoStudent}</th>
+                    <th scope="col"> ${infoStudent[i].stats.completedPercentage}</th>
+                    <th scope="col"> ${infoStudent[i].stats.status}</th>
+                </tr>
+                `;
+    }
   }
 };
 
+
 window.filterDraw = (infoS) => {
-  const resultSearch = filterStudents(infoS, 'Sherrie Jeana');
-  // console.log(resultSearch);
-  if (resultSearch) {
-    modalSerchResult.innerHTML =
-    `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">${resultSearch[0].name}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Sede: ${resultSearch[0].campus}</p>
-            <p>Generación: ${resultSearch[0].generation}</p>
-            <p>E-mail: ${resultSearch[0].mail}</p>
-            <p>% de Completitud: ${resultSearch[0].stats.completedPercentage}</p>
-            <p>La estudiante: ${resultSearch[0].stats.status}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+  console.log(infoS);
+  const nameStudent = searchLabel.value;
+  if (nameStudent === '') {
+    alert('no has escrito ningun nombre');
+  } else {
+    const resultSearch = filterStudents(infoS, nameStudent);
+    console.log(resultSearch.length);
+    if (resultSearch.length > 0) {
+      modalSerchResult.innerHTML =
+        `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">${resultSearch[0].name}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Sede: ${resultSearch[0].campus}</p>
+              <p>Generación: ${resultSearch[0].generation}</p>
+              <p>E-mail: ${resultSearch[0].mail}</p>
+              <p>% de Completitud: ${resultSearch[0].stats.completedPercentage}</p>
+              <p>La estudiante: ${resultSearch[0].stats.status}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>`;
-  } else {
-    alert('No existe registro');
+      </div>`;
+    } else {
+      alert('No existe registro');
+    }
   }
 };
 
@@ -106,20 +141,63 @@ window.generationDraw = (infoGeneration) => {
 };
 
 
-// evento para jalar lista de estudiantes
-clickEstudiantesTodos.addEventListener('click', (e) => {
+// eventos
+
+
+studentsDom.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+
+  studentfilter(dataGralStudent, 'todos');
+
   carrusel.style.display = 'none';
   containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
 });
 
-clickSedes.addEventListener('click', (e) => {
+eMex.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+
+  studentfilter(dataGralStudent, 'mexico');
+
   carrusel.style.display = 'none';
-  listaEstudiantes.style.display = 'none';
+  containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block';
+});
+
+eStg.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+  studentfilter(dataGralStudent, 'santiago');
+  carrusel.style.display = 'none';
+  // containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block';
+});
+
+eLim.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+  studentfilter(dataGralStudent, 'lima');
+  carrusel.style.display = 'none';
+  // containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block';
+});
+
+campusDom.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralCamp = dataLStorage.infoGeneration
+  generationDraw(dataGralCamp);
+  carrusel.style.display = 'none';
+  // listaEstudiantes.style.display = 'none';
   containerG.style.display = 'block';
 });
 
 clickbtnSearch.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+  filterDraw(dataGralStudent);
   // console.log(searchLabel.value);
-  console.log('seguimos trabajando');
+  // const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  // console.log(dataLStorage);
 })
