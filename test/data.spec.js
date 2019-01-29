@@ -116,7 +116,7 @@ describe('data', () => {
       assert.equal(processedpercentageASC[133].name, "Rachael Cate");
     });
     it('debería retornar arreglo de estudiantes ordenado por porcentaje general DESC',() =>{
-      assert.equal(processedpercentageDESC[0].name, "Rachael Cate");
+      assert.equal(processedpercentageDESC[0].name, "Iseult Ysolt");
       assert.equal(processedpercentageDESC[133].name, "Vicki Annice");
     });
   });
