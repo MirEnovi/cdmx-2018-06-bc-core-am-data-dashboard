@@ -61,12 +61,9 @@ window.studentfilter = (infoStudent, pais) => {
       // console.log(infoStudentRes[i].campus);
       listaResult.innerHTML += `
               <tr><th scope="col"> ${number + i}</th>
-                  <th scope="col"> ${infoStudentRes[i].name}</th>
-                  <th scope="col"> ${infoStudentRes[i].mail}</th>
+                  <th scope="col"> <a href="">${infoStudentRes[i].name}</a></th>
                   <th scope="col"> ${infoStudentRes[i].campus}</th>
                   <th scope="col"> ${infoStudentRes[i].turnoStudent}</th>
-                  <th scope="col"> ${infoStudentRes[i].stats.completedPercentage}</th>
-                  <th scope="col"> ${infoStudentRes[i].stats.status}</th>
               </tr>
               `;
     }
@@ -76,11 +73,8 @@ window.studentfilter = (infoStudent, pais) => {
       listaResult.innerHTML += `
                 <tr><th scope="col"> ${number + i}</th>
                     <th scope="col"> <a href="">${infoStudent[i].name}</a></th>
-                    <th scope="col"> ${infoStudent[i].mail}</th>
                     <th scope="col"> ${infoStudent[i].campus}</th>
                     <th scope="col"> ${infoStudent[i].turnoStudent}</th>
-                    <th scope="col"> ${infoStudent[i].stats.completedPercentage}</th>
-                    <th scope="col"> ${infoStudent[i].stats.status}</th>
                 </tr>
                 `;
     }
@@ -89,40 +83,55 @@ window.studentfilter = (infoStudent, pais) => {
 
 
 window.filterDraw = (infoS) => {
-  console.log(infoS);
+  // console.log(infoS);
   const nameStudent = searchLabel.value;
   if (nameStudent === '') {
     alert('no has escrito ningun nombre');
   } else {
+
     const resultSearch = filterStudents(infoS, nameStudent);
-    console.log(resultSearch.length);
-    if (resultSearch.length > 0) {
-      modalSerchResult.innerHTML =
-        `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">${resultSearch[0].name}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Sede: ${resultSearch[0].campus}</p>
-              <p>Generación: ${resultSearch[0].generation}</p>
-              <p>E-mail: ${resultSearch[0].mail}</p>
-              <p>% de Completitud: ${resultSearch[0].stats.completedPercentage}</p>
-              <p>La estudiante: ${resultSearch[0].stats.status}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
+    console.log(resultSearch);
+    if (resultSearch.length>0) {
+      let number = 1;
+      for (let i = 0; i < resultSearch.length; i++) {
+        listaResult.innerHTML += `
+                  <tr><th scope="col"> ${number + i}</th>
+                      <th scope="col"> <a href="">${resultSearch[i].name}</a></th>
+                      <th scope="col"> ${resultSearch[i].campus}</th>
+                      <th scope="col"> ${resultSearch[i].turnoStudent}</th>
+                  </tr>
+                  `;
+      }
     } else {
       alert('No existe registro');
     }
+    // if (resultSearch.length > 0) {
+    //   modalSerchResult.innerHTML =
+    //     `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    //     <div class="modal-dialog" role="document">
+    //       <div class="modal-content">
+    //         <div class="modal-header">
+    //           <h5 class="modal-title" id="exampleModalLabel">${resultSearch[0].name}</h5>
+    //           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    //             <span aria-hidden="true">&times;</span>
+    //           </button>
+    //         </div>
+    //         <div class="modal-body">
+    //           <p>Sede: ${resultSearch[0].campus}</p>
+    //           <p>Generación: ${resultSearch[0].generation}</p>
+    //           <p>E-mail: ${resultSearch[0].mail}</p>
+    //           <p>% de Completitud: ${resultSearch[0].stats.completedPercentage}</p>
+    //           <p>La estudiante: ${resultSearch[0].stats.status}</p>
+    //         </div>
+    //         <div class="modal-footer">
+    //           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>`;
+    // } else {
+    //   alert('No existe registro');
+    // }
   }
 };
 
@@ -142,7 +151,6 @@ window.generationDraw = (infoGeneration) => {
 
 
 // eventos
-
 
 studentsDom.addEventListener('click', (e) => {
   const dataLStorage = JSON.parse(localStorage.getItem('data'));
@@ -171,7 +179,7 @@ eStg.addEventListener('click', (e) => {
   const dataGralStudent = dataLStorage.infoStudent;
   studentfilter(dataGralStudent, 'santiago');
   carrusel.style.display = 'none';
-  // containerG.style.display = 'none';
+  containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
 });
 
@@ -180,7 +188,7 @@ eLim.addEventListener('click', (e) => {
   const dataGralStudent = dataLStorage.infoStudent;
   studentfilter(dataGralStudent, 'lima');
   carrusel.style.display = 'none';
-  // containerG.style.display = 'none';
+  containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
 });
 
@@ -189,7 +197,7 @@ campusDom.addEventListener('click', (e) => {
   const dataGralCamp = dataLStorage.infoGeneration
   generationDraw(dataGralCamp);
   carrusel.style.display = 'none';
-  // listaEstudiantes.style.display = 'none';
+  listaEstudiantes.style.display = 'none';
   containerG.style.display = 'block';
 });
 
@@ -197,6 +205,9 @@ clickbtnSearch.addEventListener('click', (e) => {
   const dataLStorage = JSON.parse(localStorage.getItem('data'));
   const dataGralStudent = dataLStorage.infoStudent;
   filterDraw(dataGralStudent);
+  carrusel.style.display = 'none';
+  containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block'
   // console.log(searchLabel.value);
   // const dataLStorage = JSON.parse(localStorage.getItem('data'));
   // console.log(dataLStorage);

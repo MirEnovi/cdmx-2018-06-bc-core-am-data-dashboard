@@ -179,8 +179,22 @@ window.sortStudents = (students, orderBy, orderDirection) => {
 
 
 window.filterStudents = (students, search) => {
-  let newStudents = students.filter((i) => {
-    return i.name == search;
-  })
+  let newStudents = students.filter((i) => 
+  i.name.toLowerCase().indexOf(search.toLowerCase()) > -1
+  );
   return newStudents;
 }
+
+
+// window.filterStudents = (students, search) => {
+//   let newStudents = students.filter((i) => {
+//     return i.name == search;
+//   })
+//   return newStudents;
+// }
+
+// const filterItems = query => {
+//   return fruits.filter((el) =>
+//     el.toLowerCase().indexOf(query.toLowerCase()) > -1
+//   );
+// }
