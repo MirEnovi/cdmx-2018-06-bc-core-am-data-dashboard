@@ -92,6 +92,7 @@ window.filterDraw = (infoS) => {
     const resultSearch = filterStudents(infoS, nameStudent);
     console.log(resultSearch);
     if (resultSearch.length>0) {
+      listaResult.innerHTML='';
       let number = 1;
       for (let i = 0; i < resultSearch.length; i++) {
         listaResult.innerHTML += `
