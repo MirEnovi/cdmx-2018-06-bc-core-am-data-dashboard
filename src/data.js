@@ -1,4 +1,5 @@
 // FUNCION LISTA DE ESTUDIANTES
+
 window.computeStudentsStats = (laboratoria) => {
   //ARREGLO QUE CONTIENE LOS OBJETOS ESTUDIANTES
   let student = [];
@@ -184,17 +185,3 @@ window.filterStudents = (students, search) => {
   );
   return newStudents;
 }
-
-
-// window.filterStudents = (students, search) => {
-//   let newStudents = students.filter((i) => {
-//     return i.name == search;
-//   })
-//   return newStudents;
-// }
-
-// const filterItems = query => {
-//   return fruits.filter((el) =>
-//     el.toLowerCase().indexOf(query.toLowerCase()) > -1
-//   );
-// }
