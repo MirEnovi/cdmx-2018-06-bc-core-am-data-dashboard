@@ -44,6 +44,48 @@ const containerG = document.getElementById('contenido_general');
 
 const modalSerchResult = document.getElementById('modal-search');
 
+window.drawTable = (data) => {
+  let number = 1;
+  for (let i = 0; i < data.length; i++) {
+    listaResult.innerHTML += `
+            <tr>
+              <th scope="col"> ${number + i}</th>
+              <th scope="col"> ${data[i].name}</th>
+              <th scope="col"> ${data[i].campus}</th>
+              <th scope="col"> ${data[i].turnoStudent}</th>
+              <th scope="col">
+                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal1000${i}">
+                    Info
+                </button>
+              </th>
+            </tr>
+            <!--modal-->
+            <div class="modal fade" id="modal1000${i}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">${data[i].name}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Sede: ${data[i].campus}</p>
+                  <p>Generación: ${data[i].generation}</p>
+                  <p>E-mail: ${data[i].mail}</p>
+                  <p>% de Completitud: ${data[i].stats.completedPercentage}</p>
+                  <p>La estudiante: ${data[i].stats.status}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  }
+}
+
+
 
 window.studentfilter = (infoStudent, pais) => {
   listaResult.innerHTML= '';
@@ -56,134 +98,23 @@ window.studentfilter = (infoStudent, pais) => {
       }
     })
     console.log(infoStudentRes);
-    let number = 1;
-    for (let i = 0; i < infoStudentRes.length; i++) {
-      listaResult.innerHTML += `
-              <tr>
-                <th scope="col"> ${number + i}</th>
-                <th scope="col"> ${infoStudentRes[i].name}</th>
-                <th scope="col"> ${infoStudentRes[i].campus}</th>
-                <th scope="col"> ${infoStudentRes[i].turnoStudent}</th>
-                <th scope="col">
-                  <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal1000${i}">
-                      Info
-                  </button>
-                </th>
-              </tr>
-              <!--modal-->
-              <div class="modal fade" id="modal1000${i}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">${infoStudentRes[i].name}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Sede: ${infoStudentRes[i].campus}</p>
-                    <p>Generación: ${infoStudentRes[i].generation}</p>
-                    <p>E-mail: ${infoStudentRes[i].mail}</p>
-                    <p>% de Completitud: ${infoStudentRes[i].stats.completedPercentage}</p>
-                    <p>La estudiante: ${infoStudentRes[i].stats.status}</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  </div>
-                </div>
-              </div>
-            </div>`;
-    }
+    drawTable(infoStudentRes);
   } else {
-    let number = 1;
-    for (let i = 0; i < infoStudent.length; i++) {
-      listaResult.innerHTML += `
-                <tr><th scope="col"> ${number + i}</th>
-                    <th scope="col">${infoStudent[i].name}</th>
-                    <th scope="col"> ${infoStudent[i].campus}</th>
-                    <th scope="col"> ${infoStudent[i].turnoStudent}</th>
-                    <th scope="col">
-                      <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal1000${i}">
-                          Info
-                      </button>
-                    </th>
-                </tr>
-                <!--modal-->
-                <div class="modal fade" id="modal1000${i}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">${infoStudent[i].name}</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <p>Sede: ${infoStudent[i].campus}</p>
-                      <p>Generación: ${infoStudent[i].generation}</p>
-                      <p>E-mail: ${infoStudent[i].mail}</p>
-                      <p>% de Completitud: ${infoStudent[i].stats.completedPercentage}</p>
-                      <p>La estudiante: ${infoStudent[i].stats.status}</p>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>`;
-    }
+    drawTable(infoStudent);
   }
 };
 
 
 window.filterDraw = (infoS) => {
-  // console.log(infoS);
   const nameStudent = searchLabel.value;
   if (nameStudent === '') {
     alert('no has escrito ningun nombre');
   } else {
-
     const resultSearch = filterStudents(infoS, nameStudent);
     console.log(resultSearch);
     if (resultSearch.length>0) {
       listaResult.innerHTML='';
-      let number = 1;
-      for (let i = 0; i < resultSearch.length; i++) {
-        listaResult.innerHTML += `
-                  <tr><th scope="col"> ${number + i}</th>
-                      <th scope="col">${resultSearch[i].name}</th>
-                      <th scope="col"> ${resultSearch[i].campus}</th>
-                      <th scope="col"> ${resultSearch[i].turnoStudent}</th>
-                      <th scope="col">
-                      <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal1000${i}">
-                          Info
-                      </button>
-                    </th>
-                  </tr>
-                  <!--modal-->
-                  <div class="modal fade" id="modal1000${i}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">${resultSearch[i].name}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <p>Sede: ${resultSearch[i].campus}</p>
-                        <p>Generación: ${resultSearch[i].generation}</p>
-                        <p>E-mail: ${resultSearch[i].mail}</p>
-                        <p>% de Completitud: ${resultSearch[i].stats.completedPercentage}</p>
-                        <p>La estudiante: ${resultSearch[i].stats.status}</p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>`;
-      };
+      drawTable(resultSearch);
     } else {
       alert('No existe registro');
     };
@@ -206,14 +137,13 @@ window.generationDraw = (infoGeneration) => {
 };
 
 
+
 // eventos
 
 studentsDom.addEventListener('click', (e) => {
   const dataLStorage = JSON.parse(localStorage.getItem('data'));
   const dataGralStudent = dataLStorage.infoStudent;
-
   studentfilter(dataGralStudent, 'todos');
-
   carrusel.style.display = 'none';
   containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
@@ -222,9 +152,7 @@ studentsDom.addEventListener('click', (e) => {
 eMex.addEventListener('click', (e) => {
   const dataLStorage = JSON.parse(localStorage.getItem('data'));
   const dataGralStudent = dataLStorage.infoStudent;
-
   studentfilter(dataGralStudent, 'mexico');
-
   carrusel.style.display = 'none';
   containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block';
