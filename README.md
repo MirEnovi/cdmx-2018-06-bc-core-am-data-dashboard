@@ -1,5 +1,7 @@
 # **Data Dashboard**
 
+![alt text](imagenes/inicio_destock.jpg)
+
 ## **Proceso de UX**
 
 Nuestro proceso de UX consiste en la investigacion del data dashboard, saber cual es su definición y sus alcances, a su vez hacer una investigación de como están implementados visualmente.
