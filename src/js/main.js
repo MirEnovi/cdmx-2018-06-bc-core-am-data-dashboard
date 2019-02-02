@@ -11,8 +11,7 @@ window.realoadData = () => {
     .then((res) => {
       const infoStudent = computeStudentsStats(res);
       const infoGeneration = computeGenerationsStats(res);
-      const infoData = {infoStudent, infoGeneration};
-      return infoData;
+      return {infoStudent, infoGeneration};
     })
     .then((infoData) => {
       const dataStorage = localStorage.setItem('data', JSON.stringify(infoData));
@@ -25,9 +24,6 @@ window.realoadData = () => {
 
 // elementos del DOM
 const campusDom = document.getElementById('campus-dom');
-const mex = document.getElementById('mex');
-const stg = document.getElementById('stg');
-const lim = document.getElementById('lim');
 
 const studentsDom = document.getElementById('students-dom');
 const eMex = document.getElementById('e-mex');
@@ -42,7 +38,9 @@ const listaEstudiantes = document.getElementById('tablaEstudiantes');
 const listaResult = document.getElementById('lista_estudiantes');
 const containerG = document.getElementById('contenido_general');
 
-const modalSerchResult = document.getElementById('modal-search');
+const orderName = document.getElementById('order_name');
+const orderPercentage = document.getElementById('order_percentage');
+let countSort = 0;
 
 window.drawTable = (data) => {
   let number = 1;
@@ -121,6 +119,21 @@ window.filterDraw = (infoS) => {
   };
 };
 
+window.sorterDraw = (infoS, orderBy) => {
+  console.log(infoS);
+  if (countSort === 0) {
+    const resultSearch = sortStudents(infoS, orderBy, 'ASC');
+    countSort++;
+    listaResult.innerHTML='';
+    drawTable(resultSearch);
+  } else {
+    const resultSearch = sortStudents(infoS, orderBy, 'DESC');
+    countSort--;
+    listaResult.innerHTML='';
+    drawTable(resultSearch);
+  };
+};
+
 window.generationDraw = (infoGeneration) => {
   containerG.innerHTML='';
   for (let i = 0; i < infoGeneration.length; i++) {
@@ -136,6 +149,15 @@ window.generationDraw = (infoGeneration) => {
   }
 };
 
+
+// window.eventTable = (pais) => {
+//   const dataLStorage = JSON.parse(localStorage.getItem('data'));
+//   const dataGralStudent = dataLStorage.infoStudent;
+//   studentfilter(dataGralStudent, pais);
+//   carrusel.style.display = 'none';
+//   containerG.style.display = 'none';
+//   listaEstudiantes.style.display = 'block';
+// }
 
 
 // eventos
@@ -192,4 +214,22 @@ clickbtnSearch.addEventListener('click', (e) => {
   carrusel.style.display = 'none';
   containerG.style.display = 'none';
   listaEstudiantes.style.display = 'block'
-})
+});
+
+orderName.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+  sorterDraw(dataGralStudent, 'name');
+  carrusel.style.display = 'none';
+  containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block'
+});
+
+orderPercentage.addEventListener('click', (e) => {
+  const dataLStorage = JSON.parse(localStorage.getItem('data'));
+  const dataGralStudent = dataLStorage.infoStudent;
+  sorterDraw(dataGralStudent, 'completedPercentage');
+  carrusel.style.display = 'none';
+  containerG.style.display = 'none';
+  listaEstudiantes.style.display = 'block'
+});
