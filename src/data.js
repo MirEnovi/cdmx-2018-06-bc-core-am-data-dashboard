@@ -109,14 +109,14 @@ window.computeGenerationsStats = (laboratoria) => {
         count,
       });
     });
-  }
+  };
   return generacion;
 };
 
 
 window.sortStudents = (students, orderBy, orderDirection) => {
 
-  if (orderBy == "name" && orderDirection == "ASC") {
+  if (orderBy == 'name' && orderDirection == 'ASC') {
     let newstudents = students.sort(function (a, b) {
       let nombreActual = a.name.toUpperCase();
       let nombreSiguiente = b.name.toUpperCase();
@@ -129,9 +129,9 @@ window.sortStudents = (students, orderBy, orderDirection) => {
       };
     });
     return newstudents;
-  }
+  };
 
-  if (orderBy == "name" && orderDirection == "DESC") {
+  if (orderBy == 'name' && orderDirection == 'DESC') {
     let newstudents = students.sort(function (a, b) {
       let nombreActual = a.name.toUpperCase();
       let nombreSiguiente = b.name.toUpperCase();
@@ -144,10 +144,10 @@ window.sortStudents = (students, orderBy, orderDirection) => {
       };
     });
     return newstudents;
-  }
+  };
 
 
-  if (orderBy == "completedPercentage" && orderDirection == "ASC") {
+  if (orderBy == 'completedPercentage' && orderDirection == 'ASC') {
     let newstudents = students.sort(function (a, b) {
       let porcentajeActual = a.stats.completedPercentage;
       let porcentajeSiguiente = b.stats.completedPercentage;
@@ -162,7 +162,7 @@ window.sortStudents = (students, orderBy, orderDirection) => {
     return newstudents;
   }
 
-  if (orderBy == "completedPercentage" && orderDirection == "DESC") {
+  if (orderBy == 'completedPercentage' && orderDirection == 'DESC') {
     let newstudents = students.sort(function (a, b) {
       let porcentajeActual = a.stats.completedPercentage;
       let porcentajeSiguiente = b.stats.completedPercentage;
