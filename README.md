@@ -1,5 +1,9 @@
 # **Data Dashboard**
 
+El usuario y la contraseña son:
+Nombre: admin.
+Contraseña: 123admin.
+
 ![alt text](imagenes/inicio_destock.jpg)
 
 ## **Proceso de UX**
@@ -172,7 +176,7 @@ La paleta de colores es:
 ### **5. User testing**
 ## Producto final (Celular)
 
-** INICIO DE SESION
+**INICIO DE SESION
 
 Para acceder al sistema se deberá de ingresar los siguientes datos:
 
