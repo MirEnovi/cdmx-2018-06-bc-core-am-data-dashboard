@@ -1,8 +1,8 @@
 # **Data Dashboard**
 
 El usuario y la contraseña son:
-Nombre: admin.
-Contraseña: 123admin.
+Nombre: admin
+Contraseña: 123admin
 
 ![alt text](imagenes/inicio_destock.jpg)
 
